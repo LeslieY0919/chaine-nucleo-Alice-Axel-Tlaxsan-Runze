@@ -1,0 +1,102 @@
+Convention du maître — proposition à partager avec les autres groupes
+
+Le fichier protocol_icd.h fourni en classe reste inchangé. Il fixe les champs,
+mais pas le contenu de INIT/ACK, le CRC, l'ordre des octets ou le déroulement
+exact de l'initialisation. Les règles suivantes sont celles de cette version,
+pas une convention déjà validée par toute la classe.
+
+Topologie et interfaces
+Le maître porte l'ID 0. /init N indique le nombre d'esclaves après le maître,
+de 1 à 16. Les esclaves portent les ID 1 à N, dans l'ordre physique.
+Le PC sortie utilise l'ID 0. Son identité de terminal est conservée dans
+le payload ACK ; le champ id_src indique toujours l'émetteur immédiat.
+Le maître n'accepte que les réponses du voisin ID 1 configuré pour cet essai.
+Une absence de réponse est un défaut, jamais une détection de fin de chaîne.
+
+INIT : 16 octets utiles, en clair
+  [0]     phase : 1 = CONFIG, 2 = PROBE, 3 = COMMIT
+  [1]     ID de la carte cible pour CONFIG ; 0 pour PROBE/COMMIT
+  [2]     nombre d'esclaves N
+  [3]     réservé, 0
+  [4..7]  clé du lien entrant de la carte cible (big-endian)
+  [8..11] clé du lien sortant (0 pour le dernier esclave, sortie PC en clair)
+  [12..15] numéro de session non nul (big-endian)
+Pour PROBE et COMMIT, les deux champs clé valent 0.
+
+Le maître génère une clé 32 bits non nulle et distincte par lien entre cartes.
+L'algorithme de génération sert au TP ; il ne fournit pas de sécurité
+cryptographique. Les clés sont distribuées en clair comme prévu ici.
+Une carte cible connaît son voisin précédent (ID-1) et suivant (ID+1,
+ou PC sortie 0 si ID=N), ainsi que ses deux clés.
+
+ACK : 7 octets utiles, en clair
+  [0]     commande acquittée : INIT, RESET ou MSG
+  [1]     phase INIT (1/2/3), sinon 0
+  [2]     origine de la confirmation : carte cible pour CONFIG,
+          PC sortie 0 pour PROBE, COMMIT, RESET et MSG
+  [3..6]  numéro de session correspondant
+Un ACK d'un octet, accepté par le codec pour compatibilité avec l'ancien
+exemple, n'est pas suffisant pour synchroniser ce maître.
+
+Séquence de démarrage
+1. Le maître configure l'esclave 1, attend son ACK CONFIG, puis configure
+   successivement les esclaves suivants. Les esclaves déjà configurés relaient
+   les CONFIG destinés aux suivants, sans remplacer leur configuration.
+2. PROBE traverse les esclaves. Le PC sortie doit répondre explicitement par
+   ACK(INIT, PROBE, origine=0, session). Les relais préservent le payload,
+   remplacent id_src par leur ID et recalculent le CRC.
+3. Le maître envoie COMMIT pour annoncer la configuration globale.
+   Le PC sortie renvoie ACK(INIT, COMMIT, origine=0, session).
+   Chaque esclave devient opérationnel lorsque cette confirmation remonte.
+   Le maître devient PRET seulement après sa réception.
+
+Transmission
+Le PC entrée envoie une ligne de texte, terminée par Entrée. Le maître
+accepte 1 à 16 octets UTF-8, sans inclure le retour de ligne. Une ligne plus
+longue est rejetée explicitement. Il n'y a pas encore de fragmentation.
+Le maître applique XOR à la charge utile, puis calcule le CRC sur les
+24 premiers octets transmis. Un relais vérifie le CRC, contrôle son voisin,
+démasque avec la clé entrante et remasque avec la clé sortante.
+Le dernier esclave restitue les données en clair au PC sortie.
+Le PC sortie confirme la livraison par ACK(MSG, 0, 0, session), relayé
+jusqu'au maître. Les ACK purement locaux ne doivent pas avoir origine=0.
+
+RESET et erreurs
+RESET n'a pas de payload. Il utilise la configuration encore active.
+La demande descend jusqu'au PC sortie. La confirmation ACK(RESET, 0, 0,
+ancienne session) remonte avant l'effacement des configurations des relais.
+Le maître recrée ensuite une session et de nouvelles clés.
+Une demande RESET remontant d'un esclave est confirmée par le maître,
+puis le maître lance la procédure globale de RESET.
+Après 2 secondes sans ACK RESET, une tentative INIT est autorisée ; cela
+ne garantit pas que la chaîne a été réinitialisée. Sans les confirmations
+CONFIG/PROBE/COMMIT, le maître reste non synchronisé.
+
+Une seule commande est en attente. Le délai de réponse est de 2 secondes,
+y compris pour la confirmation de bout en bout. Un timeout INIT ou MSG
+rend la chaîne indisponible. Il faut /init N ou /reset pour la reconfigurer.
+Il n'y a pas de retransmission automatique. Sans numéro de séquence dans
+chaque MSG, des doublons d'ACK identiques dans une même session ne peuvent
+pas être distingués ; la session filtre seulement les anciennes sessions.
+La disparition d'une carte est détectée lors d'un échange, pas à vide.
+
+Une trame avec CRC incorrect est rejetée et la LED passe à 5 Hz. Le maître
+peut envoyer ERROR_CRC au voisin configuré ID 1, sans utiliser l'ID provenant
+de la trame corrompue. Un ACK valide de la demande en cours efface ce signal.
+Un ERROR reçu du voisin met le maître en attente de réinitialisation.
+ACK et ERROR ne sont jamais acquittés.
+
+USER et LED
+USER est actif à l'état bas sur PC13 ; anti-rebond de 30 ms.
+Trois appuis distincts en 2 secondes déclenchent RESET puis resynchronisation.
+Un appui long compte une fois. Un ou deux appuis seuls n'ont pas d'effet.
+LD2 (PA5) : attente 0,5 Hz ; synchronisation 2 Hz (choix de notre groupe) ;
+PRET allumé en continu ; erreur CRC 5 Hz prioritaire sur les autres états.
+
+Mode de simulation
+/test on transporte les trames sous forme de lignes @TX <hex> sur USB.
+Le PC répond par /rx <hex>. USART3 n'est pas utilisé dans ce mode.
+Le maître, son encodeur, ses délais et son automate tournent sur la vraie carte.
+Le PC simule les réponses logiques des esclaves et du terminal ; ce test
+ne valide ni le câblage USART3 ni une chaîne physique de plusieurs cartes.
+/test off remet le maître en attente et réactive le transport USART3.

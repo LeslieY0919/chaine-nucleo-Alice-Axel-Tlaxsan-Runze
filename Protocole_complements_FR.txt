@@ -1,0 +1,55 @@
+Codec du protocole ICD
+
+Le fichier protocol_icd.h retenu en classe reste inchangé.
+Les règles suivantes complètent ce fichier pour notre implémentation.
+Elles doivent être partagées avec les partenaires avant la mise en chaîne.
+
+Format
+- Trame fixe de 26 octets : en-tête 8, payload 16, CRC 2.
+- Entiers big-endian, y compris id_src et CRC.
+- reserve et les octets inutilisés du payload valent 0.
+- length indique de 0 à 16 octets utiles, pas des caractères Unicode.
+- Le début 0x7E peut aussi apparaître dans le payload : il ne coupe pas
+  une trame déjà en cours de réception.
+
+XOR et CRC
+- Seuls les octets utiles de CMD_MSG sont masqués par XOR.
+- Répéter les quatre octets de la clé 32 bits, poids fort en premier,
+  en repartant du premier octet de la clé à chaque message.
+- Appliquer XOR puis calculer CRC16 sur les 24 premiers octets transmis.
+- CRC16/CCITT-FALSE : poly 0x1021, init 0xFFFF, non réfléchi, xorout 0.
+  Le test ASCII 123456789 donne 0x29B1.
+- Vérifier le CRC avant de démasquer. Un CRC valide ne vérifie pas la clé.
+- Les commandes de contrôle sont en clair avec CRC.
+- Une clé nulle n'est pas un mode MSG en clair pour le codec entre cartes.
+
+Commandes
+- INIT : 16 octets ; la signification des champs est définie dans
+  transmitter/Protocole_maitre_FR.txt.
+- RESET : 0 octet.
+- ACK : commande acquittée en payload[0] (INIT, RESET ou MSG).
+  Le maître utilise 7 octets pour phase, origine et session.
+  L'ancien ACK local d'un octet est lisible par le codec mais ne permet
+  pas de valider la chaîne ni une livraison finale.
+- MSG : 0 à 16 octets pour le codec ; la console accepte 1 à 16 octets.
+- ERROR : un octet, 1 CRC, 2 commande, 3 longueur, 4 état, 5 voisin.
+
+Fonctions
+- protocol_message prépare le message à partir du payload en clair.
+- protocol_encode produit les 26 octets à envoyer.
+- protocol_receive reçoit les octets et vérifie les trames.
+- PROTOCOL_OK fournit un message validé et démasqué.
+- Un ProtocolReceiver_t initialisé avec {0} par UART ; réinitialiser used
+  après un timeout de trame. Le pilote applique ici un délai de 50 ms.
+- Les anciens helpers INIT ont été retirés pour éviter deux définitions
+  différentes du même payload. La construction d'INIT appartient à master.c.
+- L'automate du maître gère la configuration, les voisins, les ACK, les
+  délais et le bouton ; le codec gère uniquement le format des messages.
+
+Exemple
+Source 0x01020304, clé 0x11223344, message HELLO :
+7E 03 05 00 01 02 03 04 59 67 7F 08 5E 00 00 00
+00 00 00 00 00 00 00 00 58 CC
+
+Validation depuis le dossier CY :
+  bash transmitter/test.sh

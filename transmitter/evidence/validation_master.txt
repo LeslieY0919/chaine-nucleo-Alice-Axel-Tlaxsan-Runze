@@ -1,0 +1,15 @@
+Tests sur NUCLEO-F446RE, 2026-10-08
+
+Codec et automate : tests C avec ASan/UBSan réussis.
+Carte réelle, partenaire logique simulé sur PC : configuration, confirmation
+terminale, MSG, ACK, CRC invalide, voisin incorrect, RESET et timeout validés.
+Sans voisin USART3 : timeout et retour en attente validés.
+USER physique : RESET observé après les appuis demandés à l'utilisateur.
+La resynchronisation lors de cet essai USER a expiré car le simulateur
+n'était pas activé ; elle a été validée séparément avec /reset.
+
+Restent à vérifier avec les partenaires : UART3 câblé, vraie chaîne,
+permutation physique des cartes et convention commune des payloads.
+
+LD2 : états GPIO mesurés sur la carte, attente 0,5 Hz, PRET fixe, CRC 5 Hz.
+SHA256 firmware : 447a557752964c90c231e445a5795b0c5f87abedfb9512726cfd6fbbd30bf066

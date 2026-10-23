@@ -1,0 +1,22 @@
+{
+  "success": false,
+  "method": "USER physique, aucune commande /reset envoyee par le script",
+  "log": [
+    "REFUSE : ligne invalide ou trop longue",
+    "RESET : demande de reinitialisation et resynchronisation",
+    "RESET sans ACK : tentative de reconfiguration",
+    "INIT : configuration des cartes",
+    "TIMEOUT : aucune confirmation, chaine non synchronisee",
+    "RESET : demande de reinitialisation et resynchronisation",
+    "RESET sans ACK : tentative de reconfiguration",
+    "INIT : configuration des cartes",
+    "TIMEOUT : aucune confirmation, chaine non synchronisee",
+    "RESET : demande de reinitialisation et resynchronisation",
+    "RESET sans ACK : tentative de reconfiguration",
+    "INIT : configuration des cartes",
+    "TIMEOUT : aucune confirmation, chaine non synchronisee"
+  ],
+  "reset_observed": true,
+  "resynchronization_verified": false,
+  "note": "USER physique a déclenché RESET. Le mode simulation était resté désactivé à cause d'une ligne partielle lors de l'ouverture du port. La resynchronisation de cet essai a donc expiré."
+}
