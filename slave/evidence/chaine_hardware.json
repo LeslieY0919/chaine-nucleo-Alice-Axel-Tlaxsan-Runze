@@ -1,0 +1,593 @@
+{
+  "date": "2026-10-23 14:32:35",
+  "succes": true,
+  "maitre": "/dev/cu.usbmodem11203",
+  "esclaves": [
+    "/dev/cu.usbmodem11103"
+  ],
+  "noeuds": 1,
+  "resultats": [
+    {
+      "test": "synchronisation de la chaine",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "test": "derniere carte presente en USB (PC sortie)",
+      "ok": true,
+      "detail": "/dev/cu.usbmodem11103"
+    },
+    {
+      "test": "meme session sur les esclaves",
+      "ok": true,
+      "detail": "5ea4cf0c"
+    },
+    {
+      "test": "derniere carte : cle aval nulle",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "test": "cles differentes sur chaque lien",
+      "ok": true,
+      "detail": "be1e1c0a"
+    },
+    {
+      "test": "message \"Bonjour\" recu en clair par le PC sortie",
+      "ok": true,
+      "detail": "[b'Bonjour']"
+    },
+    {
+      "test": "message \"CY Tech 2026\" recu en clair par le PC sortie",
+      "ok": true,
+      "detail": "[b'CY Tech 2026']"
+    },
+    {
+      "test": "message \"0123456789ABCDEF\" recu en clair par le PC sortie",
+      "ok": true,
+      "detail": "[b'0123456789ABCDEF']"
+    },
+    {
+      "test": "message \"été ~7E~\" recu en clair par le PC sortie",
+      "ok": true,
+      "detail": "[b'\\xc3\\xa9t\\xc3\\xa9 ~7E~']"
+    },
+    {
+      "test": "message \"Fin du test\" recu en clair par le PC sortie",
+      "ok": true,
+      "detail": "[b'Fin du test']"
+    },
+    {
+      "test": "ligne de 17 octets refusee par le maitre",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "test": "resynchronisation apres /reset",
+      "ok": true,
+      "detail": "5ea4cf0c -> acca9484"
+    },
+    {
+      "test": "message apres /reset",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "test": "RESET esclave -> maitre -> resynchronisation",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "test": "message apres RESET esclave",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "test": "maitre PRET, LED fixe",
+      "ok": true,
+      "detail": "ETAT=PRET MODE=USART3 CRC=OK USER=0 LED=1"
+    },
+    {
+      "test": "E1 DERNIERE PRET, LED fixe",
+      "ok": true,
+      "detail": "ETAT=PRET ROLE=ESCLAVE ID=1/1 POSITION=DERNIERE MODE=LIAISON SESSION=815855a3 CLE_AMONT=6dcb8dab CLE_AVAL=00000000 SORTIE=USB CRC=OK MSG=1 USER=0 LED=1"
+    }
+  ],
+  "log": [
+    {
+      "t": 0.035,
+      "carte": "ESCLAVE A",
+      "ligne": "MODE LIAISON : amont UART5 CN7-3/CN7-4, aval USART3 CN7-1/CN7-2"
+    },
+    {
+      "t": 0.042,
+      "carte": "ESCLAVE A",
+      "ligne": "SORTIE : PC sortie sur l'USB ST-LINK (lignes @DN, sortie.py)"
+    },
+    {
+      "t": 0.047,
+      "carte": "MAITRE",
+      "ligne": "MODE USART3 : attente de /init N"
+    },
+    {
+      "t": 0.051,
+      "carte": "MAITRE",
+      "ligne": "INIT : configuration des cartes"
+    },
+    {
+      "t": 0.061,
+      "carte": "ESCLAVE A",
+      "ligne": "CONFIG : carte ID 1 sur 1 esclaves, role DERNIERE (sortie PC en clair)"
+    },
+    {
+      "t": 0.066,
+      "carte": "ESCLAVE A",
+      "ligne": "CLES : amont be1e1c0a, aval 00000000, session 5ea4cf0c"
+    },
+    {
+      "t": 0.075,
+      "carte": "ESCLAVE A",
+      "ligne": "PROBE : verification transmise vers l'aval"
+    },
+    {
+      "t": 0.081,
+      "carte": "ESCLAVE A",
+      "ligne": "@DN 7e001000000000010200010000000000000000005ea4cf0cc356"
+    },
+    {
+      "t": 0.081,
+      "carte": "ESCLAVE A",
+      "ligne": "PC SORTIE : PROBE recu de la carte 1, confirmation envoyee"
+    },
+    {
+      "t": 0.094,
+      "carte": "ESCLAVE A",
+      "ligne": "ACK PROBE du PC sortie : relaye vers le maitre"
+    },
+    {
+      "t": 0.098,
+      "carte": "ESCLAVE A",
+      "ligne": "COMMIT : synchronisation transmise vers l'aval"
+    },
+    {
+      "t": 0.104,
+      "carte": "ESCLAVE A",
+      "ligne": "@DN 7e001000000000010300010000000000000000005ea4cf0c6b72"
+    },
+    {
+      "t": 0.104,
+      "carte": "ESCLAVE A",
+      "ligne": "PC SORTIE : COMMIT recu, session 5ea4cf0c, sortie prete"
+    },
+    {
+      "t": 0.115,
+      "carte": "MAITRE",
+      "ligne": "PRET : chaine synchronisee"
+    },
+    {
+      "t": 0.118,
+      "carte": "ESCLAVE A",
+      "ligne": "PRET : COMMIT confirme par le PC sortie, carte operationnelle"
+    },
+    {
+      "t": 0.436,
+      "carte": "ESCLAVE A",
+      "ligne": "ETAT=PRET ROLE=ESCLAVE ID=1/1 POSITION=DERNIERE MODE=LIAISON SESSION=5ea4cf0c CLE_AMONT=be1e1c0a CLE_AVAL=00000000 SORTIE=USB CRC=OK MSG=0 USER=0 LED=1"
+    },
+    {
+      "t": 0.445,
+      "carte": "MAITRE",
+      "ligne": "MSG : envoye, attente de confirmation finale"
+    },
+    {
+      "t": 0.448,
+      "carte": "E1 DERNIERE",
+      "ligne": "DECODE : recu fc717260d16b6e -> clair \"Bonjour\" (7 octets) -> PC sortie"
+    },
+    {
+      "t": 0.454,
+      "carte": "E1 DERNIERE",
+      "ligne": "@DN 7e03070000000001426f6e6a6f75720000000000000000009db5"
+    },
+    {
+      "t": 0.454,
+      "carte": "E1 DERNIERE",
+      "ligne": "PC SORTIE >>> MESSAGE RECU EN CLAIR : \"Bonjour\" (7 octets)"
+    },
+    {
+      "t": 0.466,
+      "carte": "MAITRE",
+      "ligne": "ACK : message recu par le PC de sortie"
+    },
+    {
+      "t": 0.467,
+      "carte": "E1 DERNIERE",
+      "ligne": "ACK MSG : livraison confirmee, relaye vers le maitre"
+    },
+    {
+      "t": 0.58,
+      "carte": "MAITRE",
+      "ligne": "MSG : envoye, attente de confirmation finale"
+    },
+    {
+      "t": 0.584,
+      "carte": "E1 DERNIERE",
+      "ligne": "DECODE : recu fd473c5edb7d742a8c2e2e3c -> clair \"CY Tech 2026\" (12 octets) -> PC sortie"
+    },
+    {
+      "t": 0.589,
+      "carte": "E1 DERNIERE",
+      "ligne": "@DN 7e030c0000000001435920546563682032303236000000004781"
+    },
+    {
+      "t": 0.589,
+      "carte": "E1 DERNIERE",
+      "ligne": "PC SORTIE >>> MESSAGE RECU EN CLAIR : \"CY Tech 2026\" (12 octets)"
+    },
+    {
+      "t": 0.601,
+      "carte": "MAITRE",
+      "ligne": "ACK : message recu par le PC de sortie"
+    },
+    {
+      "t": 0.602,
+      "carte": "E1 DERNIERE",
+      "ligne": "ACK MSG : livraison confirmee, relaye vers le maitre"
+    },
+    {
+      "t": 0.712,
+      "carte": "MAITRE",
+      "ligne": "MSG : envoye, attente de confirmation finale"
+    },
+    {
+      "t": 0.717,
+      "carte": "E1 DERNIERE",
+      "ligne": "DECODE : recu 8e2f2e398a2b2a3d86275d48fd5a594c -> clair \"0123456789ABCDEF\" (16 octets) -> PC sortie"
+    },
+    {
+      "t": 0.722,
+      "carte": "E1 DERNIERE",
+      "ligne": "@DN 7e0310000000000130313233343536373839414243444546608d"
+    },
+    {
+      "t": 0.722,
+      "carte": "E1 DERNIERE",
+      "ligne": "PC SORTIE >>> MESSAGE RECU EN CLAIR : \"0123456789ABCDEF\" (16 octets)"
+    },
+    {
+      "t": 0.734,
+      "carte": "MAITRE",
+      "ligne": "ACK : message recu par le PC de sortie"
+    },
+    {
+      "t": 0.735,
+      "carte": "E1 DERNIERE",
+      "ligne": "ACK MSG : livraison confirmee, relaye vers le maitre"
+    },
+    {
+      "t": 0.845,
+      "carte": "MAITRE",
+      "ligne": "MSG : envoye, attente de confirmation finale"
+    },
+    {
+      "t": 0.849,
+      "carte": "E1 DERNIERE",
+      "ligne": "DECODE : recu 7db768c9173e623dfb60 -> clair \"été ~7E~\" (10 octets) -> PC sortie"
+    },
+    {
+      "t": 0.854,
+      "carte": "E1 DERNIERE",
+      "ligne": "@DN 7e030a0000000001c3a974c3a9207e37457e000000000000426c"
+    },
+    {
+      "t": 0.854,
+      "carte": "E1 DERNIERE",
+      "ligne": "PC SORTIE >>> MESSAGE RECU EN CLAIR : \"été ~7E~\" (10 octets)"
+    },
+    {
+      "t": 0.866,
+      "carte": "MAITRE",
+      "ligne": "ACK : message recu par le PC de sortie"
+    },
+    {
+      "t": 0.867,
+      "carte": "E1 DERNIERE",
+      "ligne": "ACK MSG : livraison confirmee, relaye vers le maitre"
+    },
+    {
+      "t": 0.975,
+      "carte": "MAITRE",
+      "ligne": "MSG : envoye, attente de confirmation finale"
+    },
+    {
+      "t": 0.979,
+      "carte": "E1 DERNIERE",
+      "ligne": "DECODE : recu f877722ada6b3c7edb6d68 -> clair \"Fin du test\" (11 octets) -> PC sortie"
+    },
+    {
+      "t": 0.985,
+      "carte": "E1 DERNIERE",
+      "ligne": "@DN 7e030b000000000146696e20647520746573740000000000227f"
+    },
+    {
+      "t": 0.985,
+      "carte": "E1 DERNIERE",
+      "ligne": "PC SORTIE >>> MESSAGE RECU EN CLAIR : \"Fin du test\" (11 octets)"
+    },
+    {
+      "t": 0.997,
+      "carte": "MAITRE",
+      "ligne": "ACK : message recu par le PC de sortie"
+    },
+    {
+      "t": 0.998,
+      "carte": "E1 DERNIERE",
+      "ligne": "ACK MSG : livraison confirmee, relaye vers le maitre"
+    },
+    {
+      "t": 1.106,
+      "carte": "MAITRE",
+      "ligne": "REFUSE : maximum 16 octets par ligne"
+    },
+    {
+      "t": 1.122,
+      "carte": "E1 DERNIERE",
+      "ligne": "ETAT=PRET ROLE=ESCLAVE ID=1/1 POSITION=DERNIERE MODE=LIAISON SESSION=5ea4cf0c CLE_AMONT=be1e1c0a CLE_AVAL=00000000 SORTIE=USB CRC=OK MSG=5 USER=0 LED=1"
+    },
+    {
+      "t": 1.129,
+      "carte": "MAITRE",
+      "ligne": "RESET : demande de reinitialisation et resynchronisation"
+    },
+    {
+      "t": 1.136,
+      "carte": "E1 DERNIERE",
+      "ligne": "RESET : transmis vers l'aval, attente de la confirmation"
+    },
+    {
+      "t": 1.142,
+      "carte": "E1 DERNIERE",
+      "ligne": "@DN 7e010000000000010000000000000000000000000000000051c8"
+    },
+    {
+      "t": 1.142,
+      "carte": "E1 DERNIERE",
+      "ligne": "PC SORTIE : RESET recu, confirmation envoyee"
+    },
+    {
+      "t": 1.154,
+      "carte": "MAITRE",
+      "ligne": "INIT : configuration des cartes"
+    },
+    {
+      "t": 1.156,
+      "carte": "E1 DERNIERE",
+      "ligne": "RESET confirme par le PC sortie : configuration effacee"
+    },
+    {
+      "t": 1.163,
+      "carte": "E1 DERNIERE",
+      "ligne": "CONFIG : carte ID 1 sur 1 esclaves, role DERNIERE (sortie PC en clair)"
+    },
+    {
+      "t": 1.168,
+      "carte": "E1 DERNIERE",
+      "ligne": "CLES : amont 6fa54c3e, aval 00000000, session acca9484"
+    },
+    {
+      "t": 1.177,
+      "carte": "E1 DERNIERE",
+      "ligne": "PROBE : verification transmise vers l'aval"
+    },
+    {
+      "t": 1.182,
+      "carte": "E1 DERNIERE",
+      "ligne": "@DN 7e00100000000001020001000000000000000000acca9484f3dc"
+    },
+    {
+      "t": 1.182,
+      "carte": "E1 DERNIERE",
+      "ligne": "PC SORTIE : PROBE recu de la carte 1, confirmation envoyee"
+    },
+    {
+      "t": 1.195,
+      "carte": "E1 DERNIERE",
+      "ligne": "ACK PROBE du PC sortie : relaye vers le maitre"
+    },
+    {
+      "t": 1.199,
+      "carte": "E1 DERNIERE",
+      "ligne": "COMMIT : synchronisation transmise vers l'aval"
+    },
+    {
+      "t": 1.205,
+      "carte": "E1 DERNIERE",
+      "ligne": "@DN 7e00100000000001030001000000000000000000acca94845bf8"
+    },
+    {
+      "t": 1.205,
+      "carte": "E1 DERNIERE",
+      "ligne": "PC SORTIE : COMMIT recu, session acca9484, sortie prete"
+    },
+    {
+      "t": 1.216,
+      "carte": "MAITRE",
+      "ligne": "PRET : chaine synchronisee"
+    },
+    {
+      "t": 1.219,
+      "carte": "E1 DERNIERE",
+      "ligne": "PRET : COMMIT confirme par le PC sortie, carte operationnelle"
+    },
+    {
+      "t": 1.233,
+      "carte": "E1 DERNIERE",
+      "ligne": "ETAT=PRET ROLE=ESCLAVE ID=1/1 POSITION=DERNIERE MODE=LIAISON SESSION=acca9484 CLE_AMONT=6fa54c3e CLE_AVAL=00000000 SORTIE=USB CRC=OK MSG=0 USER=0 LED=0"
+    },
+    {
+      "t": 1.241,
+      "carte": "MAITRE",
+      "ligne": "MSG : envoye, attente de confirmation finale"
+    },
+    {
+      "t": 1.245,
+      "carte": "E1 DERNIERE",
+      "ligne": "DECODE : recu 2ed53e5b1c853e5b1cc038 -> clair \"Apres reset\" (11 octets) -> PC sortie"
+    },
+    {
+      "t": 1.251,
+      "carte": "E1 DERNIERE",
+      "ligne": "@DN 7e030b0000000001417072657320726573657400000000004bf3"
+    },
+    {
+      "t": 1.251,
+      "carte": "E1 DERNIERE",
+      "ligne": "PC SORTIE >>> MESSAGE RECU EN CLAIR : \"Apres reset\" (11 octets)"
+    },
+    {
+      "t": 1.263,
+      "carte": "MAITRE",
+      "ligne": "ACK : message recu par le PC de sortie"
+    },
+    {
+      "t": 1.264,
+      "carte": "E1 DERNIERE",
+      "ligne": "ACK MSG : livraison confirmee, relaye vers le maitre"
+    },
+    {
+      "t": 1.268,
+      "carte": "E1 DERNIERE",
+      "ligne": "RESET local : demande envoyee au maitre"
+    },
+    {
+      "t": 1.278,
+      "carte": "MAITRE",
+      "ligne": "RESET : demande de reinitialisation et resynchronisation"
+    },
+    {
+      "t": 1.278,
+      "carte": "E1 DERNIERE",
+      "ligne": "RESET local : demande confirmee par le maitre"
+    },
+    {
+      "t": 1.286,
+      "carte": "E1 DERNIERE",
+      "ligne": "RESET : transmis vers l'aval, attente de la confirmation"
+    },
+    {
+      "t": 1.291,
+      "carte": "E1 DERNIERE",
+      "ligne": "@DN 7e010000000000010000000000000000000000000000000051c8"
+    },
+    {
+      "t": 1.291,
+      "carte": "E1 DERNIERE",
+      "ligne": "PC SORTIE : RESET recu, confirmation envoyee"
+    },
+    {
+      "t": 1.303,
+      "carte": "MAITRE",
+      "ligne": "INIT : configuration des cartes"
+    },
+    {
+      "t": 1.305,
+      "carte": "E1 DERNIERE",
+      "ligne": "RESET confirme par le PC sortie : configuration effacee"
+    },
+    {
+      "t": 1.312,
+      "carte": "E1 DERNIERE",
+      "ligne": "CONFIG : carte ID 1 sur 1 esclaves, role DERNIERE (sortie PC en clair)"
+    },
+    {
+      "t": 1.317,
+      "carte": "E1 DERNIERE",
+      "ligne": "CLES : amont 6dcb8dab, aval 00000000, session 815855a3"
+    },
+    {
+      "t": 1.326,
+      "carte": "E1 DERNIERE",
+      "ligne": "PROBE : verification transmise vers l'aval"
+    },
+    {
+      "t": 1.331,
+      "carte": "E1 DERNIERE",
+      "ligne": "@DN 7e00100000000001020001000000000000000000815855a39aad"
+    },
+    {
+      "t": 1.331,
+      "carte": "E1 DERNIERE",
+      "ligne": "PC SORTIE : PROBE recu de la carte 1, confirmation envoyee"
+    },
+    {
+      "t": 1.344,
+      "carte": "E1 DERNIERE",
+      "ligne": "ACK PROBE du PC sortie : relaye vers le maitre"
+    },
+    {
+      "t": 1.349,
+      "carte": "E1 DERNIERE",
+      "ligne": "COMMIT : synchronisation transmise vers l'aval"
+    },
+    {
+      "t": 1.354,
+      "carte": "E1 DERNIERE",
+      "ligne": "@DN 7e00100000000001030001000000000000000000815855a33289"
+    },
+    {
+      "t": 1.354,
+      "carte": "E1 DERNIERE",
+      "ligne": "PC SORTIE : COMMIT recu, session 815855a3, sortie prete"
+    },
+    {
+      "t": 1.365,
+      "carte": "MAITRE",
+      "ligne": "PRET : chaine synchronisee"
+    },
+    {
+      "t": 1.368,
+      "carte": "E1 DERNIERE",
+      "ligne": "PRET : COMMIT confirme par le PC sortie, carte operationnelle"
+    },
+    {
+      "t": 1.374,
+      "carte": "MAITRE",
+      "ligne": "MSG : envoye, attente de confirmation finale"
+    },
+    {
+      "t": 1.378,
+      "carte": "E1 DERNIERE",
+      "ligne": "DECODE : recu 3faefece19ebe8d80ea7ecdd08 -> clair \"Reset esclave\" (13 octets) -> PC sortie"
+    },
+    {
+      "t": 1.383,
+      "carte": "E1 DERNIERE",
+      "ligne": "@DN 7e030d00000000015265736574206573636c6176650000000fd8"
+    },
+    {
+      "t": 1.383,
+      "carte": "E1 DERNIERE",
+      "ligne": "PC SORTIE >>> MESSAGE RECU EN CLAIR : \"Reset esclave\" (13 octets)"
+    },
+    {
+      "t": 1.395,
+      "carte": "MAITRE",
+      "ligne": "ACK : message recu par le PC de sortie"
+    },
+    {
+      "t": 1.396,
+      "carte": "E1 DERNIERE",
+      "ligne": "ACK MSG : livraison confirmee, relaye vers le maitre"
+    },
+    {
+      "t": 1.703,
+      "carte": "MAITRE",
+      "ligne": "ETAT=PRET MODE=USART3 CRC=OK USER=0 LED=1"
+    },
+    {
+      "t": 1.719,
+      "carte": "E1 DERNIERE",
+      "ligne": "ETAT=PRET ROLE=ESCLAVE ID=1/1 POSITION=DERNIERE MODE=LIAISON SESSION=815855a3 CLE_AMONT=6dcb8dab CLE_AVAL=00000000 SORTIE=USB CRC=OK MSG=1 USER=0 LED=1"
+    }
+  ]
+}
